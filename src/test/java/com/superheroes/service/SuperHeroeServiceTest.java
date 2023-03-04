@@ -5,7 +5,6 @@ import com.superheroes.exception.NoContentException;
 import com.superheroes.exception.SuperHeroeException;
 import com.superheroes.mapper.SuperHeroeMapper;
 import com.superheroes.model.dto.SuperHeroeDTO;
-import com.superheroes.model.entity.SuperHeroe;
 import com.superheroes.repository.SuperHeroeRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,10 +13,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.superheroes.util.TestUtil.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
@@ -34,18 +33,6 @@ class SuperHeroeServiceTest {
 
     @Mock
     private SuperHeroeMapper superHeroeMapper;
-
-    private SuperHeroeDTO dto = SuperHeroeDTO.builder().id(1L).name("SpiderMan").build();
-
-    private SuperHeroe entity = SuperHeroe.builder().id(1L).name("SpiderMan").build();
-
-    private SuperHeroe emptyEntity = SuperHeroe.builder().build();
-
-    private List<SuperHeroeDTO> dtoList = Collections.singletonList(dto);
-
-    private List<SuperHeroe> entityList = Collections.singletonList(entity);
-
-    private String paramName = "man";
 
     @Test
     void test_createSuperHeroeOK() throws BusinessException {
@@ -164,6 +151,20 @@ class SuperHeroeServiceTest {
             fail();
         } catch (SuperHeroeException ex) {
             assertTrue(ex instanceof NoContentException);
+        }
+    }
+
+    @Test
+    void test_deleteByIdSuperHeroeFail() {
+        when(superHeroeRepository.findById(Mockito.any())).thenReturn(Optional.of(entity));
+        doAnswer((invocation) -> {
+            throw new Exception("invalid");
+        }).when(superHeroeRepository).deleteById(any());
+        try {
+            superHeroeService.deleteById(dto.getId());
+            fail();
+        } catch (SuperHeroeException ex) {
+            assertTrue(ex instanceof BusinessException);
         }
     }
 

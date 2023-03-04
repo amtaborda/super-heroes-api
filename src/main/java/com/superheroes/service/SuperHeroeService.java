@@ -62,7 +62,8 @@ public class SuperHeroeService {
      */
     public SuperHeroeDTO findById(Long id) throws NoContentException {
         if (repository.findById(id).isEmpty()) {
-            logger.error("Superheroes record with id = " + id + " not found...");
+            logger.error(new StringBuilder("Superheroe record with id = ")
+                    .append(id).append(" not found...").toString());
             throw new NoContentException();
         }
         return mapper.toDto(repository.findById(id).get());
@@ -96,7 +97,8 @@ public class SuperHeroeService {
      */
     public SuperHeroeDTO update(Long id, SuperHeroeDTO superHeroeDTO) throws SuperHeroeException {
         if (repository.findById(id).isEmpty()) {
-            logger.error("Superheroes record with id = " + id + " not found...");
+            logger.error(new StringBuilder("Superheroe record with id = ")
+                    .append(id).append(" not found...").toString());
             throw new NoContentException();
         }
         try {
@@ -118,7 +120,8 @@ public class SuperHeroeService {
      */
     public void deleteById(Long id) throws SuperHeroeException {
         if (repository.findById(id).isEmpty()) {
-            logger.error("Superheroes record with id = " + id + " not found...");
+            logger.error(new StringBuilder("Superheroe record with id = ")
+                    .append(id).append(" not found...").toString());
             throw new NoContentException();
         }
         try {
