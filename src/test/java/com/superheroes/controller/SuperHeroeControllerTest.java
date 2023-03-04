@@ -25,7 +25,7 @@ public class SuperHeroeControllerTest {
 
     @Test
     public void test_crearSuperHeroeOK() throws Exception {
-        when(superHeroeService.create(request)).thenReturn(request.getId());
-        assertThat(superHeroeController.create(request)).isEqualTo(request.getId());
+        when(superHeroeService.create(request)).thenReturn(request);
+        assertThat(superHeroeController.create(request).getId()).isEqualTo(request.getId());
     }
 }

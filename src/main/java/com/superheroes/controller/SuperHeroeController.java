@@ -41,15 +41,15 @@ public class SuperHeroeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Long create(@RequestBody @Valid SuperHeroeDTO superHeroeDTO) throws SuperHeroeException {
+    public SuperHeroeDTO create(@RequestBody @Valid SuperHeroeDTO superHeroeDTO) throws SuperHeroeException {
         return superHeroeService.create(superHeroeDTO);
     }
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("id") Long id, @RequestBody SuperHeroeDTO superHeroeDTO)
+    public SuperHeroeDTO update(@PathVariable("id") Long id, @RequestBody SuperHeroeDTO superHeroeDTO)
             throws SuperHeroeException {
-        superHeroeService.update(id, superHeroeDTO);
+        return superHeroeService.update(id, superHeroeDTO);
     }
 
     @DeleteMapping(value = "/{id}")

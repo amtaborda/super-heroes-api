@@ -75,11 +75,11 @@ public class SuperHeroeService {
      * @return a {@link  Long} id object
      * @throws {@link SuperHeroeException}
      */
-    public Long create(SuperHeroeDTO superHeroeDTO) throws BusinessException {
+    public SuperHeroeDTO create(SuperHeroeDTO superHeroeDTO) throws BusinessException {
         try {
             SuperHeroe superHeroe = repository.save(mapper.toEntity(superHeroeDTO));
             logger.info("Superheroes record has been saved...");
-            return superHeroe.getId();
+            return mapper.toDto(superHeroe);
         } catch (Exception exception) {
             logger.error("Error trying save superheroe record");
             throw new BusinessException();
@@ -91,17 +91,19 @@ public class SuperHeroeService {
      *
      * @param id            id superheroe
      * @param superHeroeDTO superheroes info
+     * @return
      * @throws {@link SuperHeroeException}
      */
-    public void update(Long id, SuperHeroeDTO superHeroeDTO) throws SuperHeroeException {
+    public SuperHeroeDTO update(Long id, SuperHeroeDTO superHeroeDTO) throws SuperHeroeException {
         if (repository.findById(id).isEmpty()) {
             logger.error("Superheroes record with id = " + id + " not found...");
             throw new NoContentException();
         }
         try {
             superHeroeDTO.setId(id);
-            repository.save(mapper.toEntity(superHeroeDTO));
+            SuperHeroe superHeroe = repository.save(mapper.toEntity(superHeroeDTO));
             logger.info("Superheroes record has been updated...");
+            return mapper.toDto(superHeroe);
         } catch (Exception exception) {
             logger.error("Error trying update superheroe record");
             throw new BusinessException();
@@ -140,6 +142,6 @@ public class SuperHeroeService {
             logger.error("Superheroes records not found...");
             throw new NoContentException();
         }
-        return mapper.toDtoList(repository.findAll());
+        return mapper.toDtoList(entityList);
     }
 }
