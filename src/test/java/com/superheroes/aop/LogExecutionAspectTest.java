@@ -19,7 +19,7 @@ class LogExecutionAspectTest {
     private LogExecutionAspect logExecutionAspect;
 
     @Test
-    public void testPositiveSmallNumber() throws Throwable {
+    public void test_ExecutionTimeOK() throws Throwable {
         logExecutionAspect.logExecutionTime(proceedingJoinPoint);
 
         verify(proceedingJoinPoint, times(1)).proceed();
